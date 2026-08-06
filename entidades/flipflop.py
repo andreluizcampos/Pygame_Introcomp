@@ -48,6 +48,11 @@ class FLIPFLOPS:
     def desenha(self, screen):
         screen.blit(self.sprite, (self.x, self.y))
 
+    def desenha_pos(self, screen, x,y):
+         screen.blit(self.sprite, (x,y))
+
+    def ff_decay(self):
+        self.hp-=self.hp_drop
 
 class FFTIPOD(FLIPFLOPS):
     def __init__(self, x, y):
