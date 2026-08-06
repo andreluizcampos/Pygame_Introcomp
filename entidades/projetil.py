@@ -1,6 +1,6 @@
 import pygame as pg
 
-VELOCIDADE_PADRAO = 5
+VELOCIDADE_PADRAO = 4
 
 
 class PROJETIL:

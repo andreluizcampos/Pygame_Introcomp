@@ -4,13 +4,14 @@ from config.flipflops_config import (
 )
 from entidades.sprites import carrega_sprite
 from entidades.projetil import PROJETIL
-
+import pygame as pg
 
 class FLIPFLOPS:
     def __init__(self, x, y, hp_drop, hp, custo, dano, cadencia, cor, alcance, sprite_path, sprite_tamanho):
         self.x = x
         self.y = y
         self.hp = hp
+        self.hp_max = hp
         self.hp_drop = hp_drop
         self.custo = custo
         self.dano = dano
@@ -19,6 +20,7 @@ class FLIPFLOPS:
         self.alcance = alcance
         self.sprite = carrega_sprite(sprite_path, sprite_tamanho)
         self.cooldown = 0
+        self.hitbox = pg.Rect(x,y,60,40)
 
     def procura_alvo(self, inimigos):
         alvo = None
@@ -33,7 +35,7 @@ class FLIPFLOPS:
 
     def atira(self, inimigos, projeteis):
         if self.cooldown > 0:
-            self.cooldown -= 1
+            self.cooldown -= 100
             return
 
         alvo = self.procura_alvo(inimigos)
@@ -46,7 +48,12 @@ class FLIPFLOPS:
         self.cooldown = self.cadencia * FPS
 
     def desenha(self, screen):
+
         screen.blit(self.sprite, (self.x, self.y))
+        prop = max(0, min(self.hp / self.hp_max, 1))
+        if self.hp < self.hp_max:
+            pg.draw.rect(screen, pg.Color("red"), (self.x, self.y - 20, 50, 6))
+            pg.draw.rect(screen, pg.Color("green"), (self.x, self.y - 20, 50 * prop, 6))
 
     def desenha_pos(self, screen, x,y):
          screen.blit(self.sprite, (x,y))

@@ -11,6 +11,7 @@ class ROM:
         self.vida_max = vida
         self.x = x
         self.y = y
+        self.hitbox= pg.Rect(x,y,110,600)
         if ROM._sprite is None:
             ROM._sprite = pg.image.load(SPRITE_ROM_PATH).convert_alpha()
             ROM._sprite = pg.transform.scale(ROM._sprite, SPRITE_ROM_TAMANHO)

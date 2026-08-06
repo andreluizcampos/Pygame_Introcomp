@@ -1,19 +1,19 @@
 FFTIPOD_CONFIG = dict(
-    hp_drop=0.8, hp=400, custo=100, dano=40, cadencia=10, cor=(90, 200, 250), alcance=2000,
+    hp_drop=0.75, hp=450, custo=110, dano=75, cadencia=35, cor=(90, 200, 250), alcance=2000,
     sprite_path="sprites/FFTIPOD.png", sprite_tamanho=(60, 39),
 )
 
 FFTIPOSR_CONFIG = dict(
-    hp_drop=1, hp=250, custo=50, dano=35, cadencia=10, cor=(120, 250, 150), alcance=1500,
+    hp_drop=1, hp=320, custo=50, dano=30, cadencia=15, cor=(120, 250, 150), alcance=150,
     sprite_path="sprites/FFTIPOSR.png", sprite_tamanho=(60, 40),
 )
 
 FFTIPOJK_CONFIG = dict(
-    hp_drop=1, hp=700, custo=175, dano=100, cadencia=7, cor=(200, 120, 250), alcance=2500,
+    hp_drop=0.9, hp=750, custo=180, dano=130, cadencia=65, cor=(200, 120, 250), alcance=380,
     sprite_path="sprites/FFTIPOJK.png", sprite_tamanho=(60, 40),
 )
 
 FFTIPOT_CONFIG = dict(
-    hp_drop=1, hp=350, custo=125, dano=201, cadencia=12, cor=(250, 160, 90), alcance=3000,
+    hp_drop=0.9, hp=380, custo=125, dano=85, cadencia=40, cor=(250, 160, 90), alcance=220,
     sprite_path="sprites/FFTIPOT.png", sprite_tamanho=(60, 39),
 )

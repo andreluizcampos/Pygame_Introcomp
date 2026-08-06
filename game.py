@@ -6,6 +6,7 @@ from entidades.inimigo import AND, XOR, OR, NOT, MULTIPLEXER, DEMULTIPLEXER
 from entidades.rom import ROM
 from entidades.flipflop import FFTIPOD, FFTIPOT, FFTIPOJK, FFTIPOSR
 from  config.fontes import fonte_padrao
+from utilities import algoritmo_spawn, spawn_speed
 
 
 pg.init()
@@ -13,7 +14,7 @@ pg.init()
 tela = pg.display.set_mode((LARGURA_TELA, ALTURA_TELA))
 pg.display.set_caption(TITULO_JANELA)
 
-saldo = 200
+saldo = 400
 acc = 0
 saldo_text = fonte_padrao.render(f"Saldo: {saldo}",False, (255,255,255))
 matriz = [[None for coluna in range(TAMANHO_MATRIZ)] for fileira in range(TAMANHO_MATRIZ)]
@@ -26,17 +27,7 @@ def linha_y(indice_linha):
 
 
 rom = ROM(0, 0)
-inimigos = [
-    AND(800, linha_y(3)),
-    OR (700, linha_y(1)),
-    XOR(620, linha_y(5)),
-    DEMULTIPLEXER(540, linha_y(2)),
-    OR (460, linha_y(4)),
-    XOR(760, linha_y(5)),
-    MULTIPLEXER(780, linha_y(6)),
-    OR (900, linha_y(7)),
-    NOT(960, linha_y(0)),
-]
+inimigos = []
 flipflops = []
 projeteis = []
 tipos = ['D','JK','SR','T']
@@ -44,18 +35,49 @@ D, JK, T, SR = FFTIPOD(400, 12), FFTIPOJK(487, 12), FFTIPOT(574, 12), FFTIPOSR(6
 
 tipo_selecionado = FFTIPOD
 
-botoes = {FFTIPOD: pg.Rect(20, 630, 40, 40), FFTIPOT: pg.Rect(150, 630, 40, 40),
-          FFTIPOSR: pg.Rect(280, 630, 40, 40), FFTIPOJK: pg.Rect(410, 630, 40, 40)}
+botoes = {FFTIPOD: pg.Rect(110, 645, 40, 40), FFTIPOT: pg.Rect(240, 645, 40, 40),
+          FFTIPOSR: pg.Rect(370, 645, 40, 40), FFTIPOJK: pg.Rect(500, 645, 40, 40)}
+
+pontos_user = 0
+Wave_Rate = 1
+it = 0
+fila_spawn = []
+intervalo_spawn = 0
+tempo_spawn_acumulado = 0
+tempo_wave_acumulado = 0
 
 while executando:
+
+    
+    if it  == 0:
+        it+=1
+        fila_spawn = algoritmo_spawn(Wave_Rate)
+        intervalo_spawn = spawn_speed(fila_spawn)
+        tempo_spawn_acumulado = 0
+        tempo_wave_acumulado = 0
+
+
+    dt = 0
+    dt+= clock.tick(60)
+
+    tempo_wave_acumulado += dt
+    if Wave_Rate < 10 and tempo_wave_acumulado >= 35000:
+        tempo_wave_acumulado = 0
+        Wave_Rate+=1
+        fila_spawn = algoritmo_spawn(Wave_Rate)
+        intervalo_spawn = spawn_speed(fila_spawn)
+        tempo_spawn_acumulado = 0
+
+    tempo_spawn_acumulado += dt
+    if fila_spawn and tempo_spawn_acumulado >= intervalo_spawn:
+        tempo_spawn_acumulado = 0
+        inimigos.append(fila_spawn.pop(0))
+
     acc+=1
- 
     if acc == 15:
         saldo+=2
         acc=0
  
- 
-    
     for clicks in pg.event.get():
         if clicks.type == pg.QUIT:
             executando = False
@@ -74,17 +96,18 @@ while executando:
                     y = fileira * 75
                     s_ff = tipo_selecionado(x, y)
 
-                if saldo >= s_ff.custo:
-                    matriz[fileira][coluna] = s_ff
-                    saldo -= s_ff.custo
+                    if saldo >= s_ff.custo:
+                        matriz[fileira][coluna] = s_ff
+                        saldo -= s_ff.custo
 
-    for inim in inimigos:
-
-        inim.Movimenta(rom.x)
 
     flipflops_da_matriz = [ff for linha in matriz for ff in linha if ff is not None]
     for ff in flipflops + flipflops_da_matriz:
         ff.atira(inimigos, projeteis)
+
+    for inim in inimigos:
+        
+        inim.Movimenta(rom.x,flipflops + flipflops_da_matriz,rom)
       
     for p in projeteis:
         p.Movimenta()
@@ -94,6 +117,8 @@ while executando:
     rom.desenha(tela)
     for inim in inimigos:
         saldo += inim.CheckVivo()
+        if not inim.vivo and inim.iteracoes == 1:
+            pontos_user += inim.pontos
         if isinstance(inim, NOT):
             rom.vida += inim.Not_Checker()
         inim.desenha(tela)
@@ -118,21 +143,23 @@ while executando:
 
     #pg.draw.rect(tela,pg.Color("gray"),(0,600,580,4000))
     saldo_text = fonte_padrao.render(f"Resenha Coins: {saldo}",True, (255,255,255))
+    pontos_text = fonte_padrao.render(f"Pontos: {pontos_user}",True, (255,255,255))
     rom_hp_text = fonte_padrao.render("Rom HP:", True,(255,255,255))
     tela.blit(saldo_text,(600,658))
+    tela.blit(pontos_text,(600,676))
     tela.blit(rom_hp_text,(600,640))
     D_label = fonte_padrao.render(f"D - {D.custo}", True, (255, 255, 255))
     T_label = fonte_padrao.render(f"T - {T.custo}", True, (255, 255, 255))
     SR_label = fonte_padrao.render(f"SR - {SR.custo}", True, (255, 255, 255))
     JK_label = fonte_padrao.render(f"JK - {JK.custo}", True, (255, 255, 255))
-    tela.blit(D_label, (20, 605))
-    tela.blit(T_label, (150, 605))
-    tela.blit(SR_label, (280, 605))
-    tela.blit(JK_label, (410, 605))
-    D.desenha_pos(tela,20,630)
-    T.desenha_pos(tela,150,630)
-    SR.desenha_pos(tela,280,630)
-    JK.desenha_pos(tela,410,630)
+    tela.blit(D_label, (110, 620))
+    tela.blit(T_label, (240, 620))
+    tela.blit(SR_label, (370, 620))
+    tela.blit(JK_label, (500, 620))
+    D.desenha_pos(tela,110,645)
+    T.desenha_pos(tela,240,645)
+    SR.desenha_pos(tela,370,645)
+    JK.desenha_pos(tela,500,645)
     pg.display.flip()
 
     clock.tick(FPS)
