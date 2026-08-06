@@ -76,3 +76,4 @@ class MULTIPLEXER(INIMIGO):
 class DEMULTIPLEXER(INIMIGO):
     def __init__(self, x, y):
         super().__init__(x, y, **DEMULTIPLEXER_CONFIG)
+
