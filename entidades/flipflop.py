@@ -20,13 +20,14 @@ class FLIPFLOPS:
         self.alcance = alcance
         self.sprite = carrega_sprite(sprite_path, sprite_tamanho)
         self.cooldown = 0
-        self.hitbox = pg.Rect(x,y,60,40)
+        self.largura, self.altura = self.sprite.get_size()
+        self.hitbox = pg.Rect(x, y - self.altura // 2, self.largura, self.altura)
 
     def procura_alvo(self, inimigos):
         alvo = None
         menor_distancia = self.alcance + 1
         for inimigo in inimigos:
-            distancia = inimigo.x - self.x
+            distancia = abs(inimigo.x - self.x)
             mesma_fileira = abs(inimigo.y - self.y) < ALTURA_FILEIRA
             if 0 < distancia <= self.alcance and mesma_fileira and distancia < menor_distancia:
                 alvo = inimigo
@@ -42,18 +43,19 @@ class FLIPFLOPS:
         if alvo is None:
             return
 
-        origem_x = self.x + self.sprite.get_width()
-        origem_y = self.y + self.sprite.get_height() / 2
+        origem_x = self.x + self.largura if alvo.x >= self.x else self.x
+        origem_y = self.y
         projeteis.append(PROJETIL(origem_x, origem_y, self.dano, alvo, self.cor))
         self.cooldown = self.cadencia * FPS
 
     def desenha(self, screen):
 
-        screen.blit(self.sprite, (self.x, self.y))
+        y_topo = self.y - self.altura // 2
+        screen.blit(self.sprite, (self.x, y_topo))
         prop = max(0, min(self.hp / self.hp_max, 1))
         if self.hp < self.hp_max:
-            pg.draw.rect(screen, pg.Color("red"), (self.x, self.y - 20, 50, 6))
-            pg.draw.rect(screen, pg.Color("green"), (self.x, self.y - 20, 50 * prop, 6))
+            pg.draw.rect(screen, pg.Color("red"), (self.x, y_topo - 20, 50, 6))
+            pg.draw.rect(screen, pg.Color("green"), (self.x, y_topo - 20, 50 * prop, 6))
 
     def desenha_pos(self, screen, x,y):
          screen.blit(self.sprite, (x,y))

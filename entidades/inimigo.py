@@ -23,6 +23,7 @@ class INIMIGO:
         self.iteracoes = 0
         self.pontos = pontos
         self.hitbox = pg.Rect(x,y,80,39)
+        self.hp_max = vida
         self.cd = 0
         
     def Movimenta(self, romX, flipflops, rom):
@@ -35,11 +36,18 @@ class INIMIGO:
                 self.Ataca(ff)
                 return
 
-        if self.x > romX + 115:
-            self.x -= self.velocidade
+        self.x -= self.velocidade
 
     def desenha(self, screen):
         rect = self.sprite.get_rect(center=(int(self.x), int(self.y)))
+
+
+        if self.hp < self.hp_max:
+   
+            prop = max(0, min(self.hp / self.hp_max, 1))
+            pg.draw.rect(screen, pg.Color("red"), (self.x -15, self.y - 25, 50, 6))
+            pg.draw.rect(screen, pg.Color("green"), (self.x -15, self.y - 25, 50 * prop, 6))
+
         screen.blit(self.sprite, rect)
 
     def CheckVivo(self):

@@ -10,3 +10,6 @@ SPRITE_ROM_PATH = "sprites/ROM.png"
 SPRITE_ROM_TAMANHO = (110, 600)
 
 ROM_VIDA = 2000
+
+MUSICA_FUNDO_PATH = "musicas/musica_fundo.mp3"
+MUSICA_VOLUME = 0.5

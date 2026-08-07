@@ -16,6 +16,14 @@ class ROM:
             ROM._sprite = pg.image.load(SPRITE_ROM_PATH).convert_alpha()
             ROM._sprite = pg.transform.scale(ROM._sprite, SPRITE_ROM_TAMANHO)
 
+    @property
+    def hp(self):
+        return self.vida
+
+    @hp.setter
+    def hp(self, valor):
+        self.vida = valor
+
     def desenha(self, screen):
         screen.blit(ROM._sprite, (self.x, self.y))
         prop = max(0, min(self.vida / self.vida_max, 1))
