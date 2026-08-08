@@ -1,5 +1,4 @@
 import pygame as pg
-import itertools as IT
 
 from config.config_geral import LARGURA_TELA, ALTURA_TELA, TITULO_JANELA, FPS, TAMANHO_MATRIZ, ALTURA_FILEIRA, MUSICA_FUNDO_PATH, MUSICA_VOLUME
 from entidades.inimigo import AND, XOR, OR, NOT, MULTIPLEXER, DEMULTIPLEXER
@@ -56,14 +55,14 @@ tempo_wave_acumulado = 0
 
 estado = "start"
 
-b_start = pg.Rect(LARGURA_TELA //2 -100 ,ALTURA_TELA // 2 - 30, 200,60)
-b_restart = pg.Rect(LARGURA_TELA // 2 - 100, ALTURA_TELA // 2 + 40, 200, 60)
+
 
 
 while executando:
 
+    b_start = pg.Rect((LARGURA_TELA //2 -100) - 10 ,ALTURA_TELA // 2 +20, 200,70)
+    b_restart = pg.Rect((LARGURA_TELA // 2 - 100 - 10), ALTURA_TELA // 2 + 10, 200, 70)
     
- 
     for clicks in pg.event.get():
 
         if clicks.type == pg.QUIT:
@@ -110,8 +109,11 @@ while executando:
 
 
     if estado == "start":
-        tela.fill(pg.Color("blue"))
-        pg.draw.rect(tela,pg.Color("gray40"),b_start)
+
+        fundo = pg.image.load("fundos/começo.png")
+        fundo = pg.transform.scale(fundo,(LARGURA_TELA, ALTURA_TELA))
+        tela.blit(fundo,(0,0))
+        pg.draw.rect(tela,pg.Color("purple"),b_start)
         pg.draw.rect(tela,pg.Color("white"),b_start,2)
         texto = fonte_padrao.render("JOGAR",True,pg.Color("white"))
         tela.blit(texto,texto.get_rect(center = b_start.center))
@@ -139,14 +141,18 @@ while executando:
         if Wave_Rate == 11:
 
             estado == "win"
-  
+
+
     if estado == "win":
-                        tela.fill(pg.Color("blue"))
-                        perdeu = fonte_grande.render("ROM PROTEGIDA :D", True, pg.Color("white"))
-                        tela.blit(perdeu, perdeu.get_rect(center=(LARGURA_TELA // 2, ALTURA_TELA // 2 - 60)))
-                        pg.draw.rect(tela, pg.Color("gray40"), b_restart)
+
+                        fundo = pg.image.load("fundos/vitoria.png")
+                        fundo = pg.transform.scale(fundo,(LARGURA_TELA, ALTURA_TELA))
+                        tela.blit(fundo,(0,0))
+                        b_start = pg.Rect((LARGURA_TELA //2 -100) - 10 ,ALTURA_TELA // 2 +20, 200,70)
+                        b_restart = pg.Rect((LARGURA_TELA // 2 - 100 - 10) -10, ALTURA_TELA // 2 -30 , 220, 60)
+                        pg.draw.rect(tela, pg.Color("blue"), b_restart)
                         pg.draw.rect(tela, pg.Color("white"), b_restart, 2)
-                        texto_restart = fonte_padrao.render("RECOMEÇAR", True, pg.Color("white"))
+                        texto_restart = fonte_padrao.render("JOGAR NOVAMENTE", True, pg.Color("white"))
                         tela.blit(texto_restart, texto_restart.get_rect(center=b_restart.center))
                         pg.display.flip()
                         continue
@@ -158,18 +164,19 @@ while executando:
 
     acc+=1
     if acc == 15:
-        saldo+=2
+        saldo+=3
         acc=0
-
+ 
     if rom.vida <= 0:
         estado = "perdeu_playboy"
 
     if estado == "perdeu_playboy":
-        tela.fill(pg.Color("black"))
-        perdeu = fonte_grande.render("OVERFLOW", True, pg.Color("red"))
-        tela.blit(perdeu, perdeu.get_rect(center=(LARGURA_TELA // 2, ALTURA_TELA // 2 - 60)))
-        pg.draw.rect(tela, pg.Color("gray40"), b_restart)
-        pg.draw.rect(tela, pg.Color("white"), b_restart, 2)
+       
+        fundo = pg.image.load("fundos/derrota.png")
+        fundo = pg.transform.scale(fundo,(LARGURA_TELA, ALTURA_TELA))
+        tela.blit(fundo,(0,0))
+        pg.draw.rect(tela, pg.Color("black"), b_restart)
+        pg.draw.rect(tela, pg.Color("red"), b_restart, 2)
         texto_restart = fonte_padrao.render("RECOMEÇAR", True, pg.Color("white"))
         tela.blit(texto_restart, texto_restart.get_rect(center=b_restart.center))
         pg.display.flip()
@@ -191,7 +198,6 @@ while executando:
     rom.desenha(tela)
     for inim in inimigos:
         saldo += inim.CheckVivo()
-        saldo+=Wave_Rate/10
         if not inim.vivo and inim.iteracoes == 1:
             pontos_user += inim.pontos
         if isinstance(inim, NOT):
