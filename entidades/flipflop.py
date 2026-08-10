@@ -2,7 +2,6 @@ from config.config_geral import FPS, ALTURA_FILEIRA
 from config.flipflops_config import (
     FFTIPOD_CONFIG, FFTIPOSR_CONFIG, FFTIPOJK_CONFIG, FFTIPOT_CONFIG,
 )
-from entidades.sprites import carrega_sprite
 from entidades.projetil import PROJETIL
 import pygame as pg
 
@@ -18,7 +17,7 @@ class FLIPFLOPS:
         self.cadencia = cadencia
         self.cor = cor
         self.alcance = alcance
-        self.sprite = carrega_sprite(sprite_path, sprite_tamanho)
+        self.sprite = pg.transform.scale(pg.image.load(sprite_path).convert_alpha(), sprite_tamanho)
         self.cooldown = 0
         self.largura, self.altura = self.sprite.get_size()
         self.hitbox = pg.Rect(x, y - self.altura // 2, self.largura, self.altura)

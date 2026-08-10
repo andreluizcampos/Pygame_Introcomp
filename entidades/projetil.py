@@ -26,4 +26,4 @@ class PROJETIL:
             self.x += self.velocidade if distancia > 0 else -self.velocidade
 
     def desenha(self, screen):
-        pg.draw.circle(screen, self.cor, (int(self.x), int(self.y)), 5)
+        pg.draw.circle(screen, self.cor, ((self.x , self.y)), 5)

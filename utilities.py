@@ -16,7 +16,6 @@ def conta_moedas(saldo, tempo):
 
 def algoritmo_spawn(Nivel):
     qtd = (Nivel+3) * 4 + 10
-    vel_spawn = Nivel
     tipos =[XOR, OR, AND, DEMULTIPLEXER, MULTIPLEXER, NOT]
 
     bandidos =[]
@@ -27,6 +26,10 @@ def algoritmo_spawn(Nivel):
         fileira = rd.randint(0, TAMANHO_MATRIZ - 1)
         y = fileira * ALTURA_FILEIRA + ALTURA_FILEIRA // 2
         bandido = classe(700, y)
+        bandido.hp += 10 * Nivel
+        bandido.hp_max = bandido.hp
+        bandido.velocidade += Nivel
+        bandido.dano += Nivel * 2
         bandidos.append(bandido)
 
     return bandidos

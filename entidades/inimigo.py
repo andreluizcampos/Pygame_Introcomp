@@ -2,8 +2,6 @@ from config.inimigos_config import (
     AND_CONFIG, OR_CONFIG, XOR_CONFIG, NOT_CONFIG,
     MULTIPLEXER_CONFIG, DEMULTIPLEXER_CONFIG,
 )
-from entidades.sprites import carrega_sprite
-
 import pygame as pg
 
 class INIMIGO:
@@ -18,7 +16,7 @@ class INIMIGO:
         self.cadencia = cadencia
         self.velocidade = velocidade
         self.drop = drop
-        self.sprite = carrega_sprite(sprite_path, sprite_tamanho)
+        self.sprite = pg.transform.scale(pg.image.load(sprite_path).convert_alpha(), sprite_tamanho)
         self.vivo = True
         self.iteracoes = 0
         self.pontos = pontos
