@@ -1,0 +1,96 @@
+Nome: André Luiz Silveira Campos
+Matrícula: 2025100897
+
+Os fundos e personagens tiveram seus sprites gerados por IA.
+
+Como jogar:
+
+Basta rodar JOGO.py e manter todas os arquivos de acordo com o zip enviado, respeitando os caminhos
+
+Defend the rom é um tower defense inspirado em plants vs zombies, seu objetivo é defender a ROM contras as portas lógicas que spawnam aleatoriamente
+Tem-se 5 tipos de flipflop
+
+D: O default, cujas qualidades são essencialmente medianas
+T: O tipo T, que por definição é pra ser uma metralhadora, muita cadência e dano médio pra baixo
+SR: É para ser um escudo, baixissimo dano e muita vida
+L: Na verdade é o laser, custa caro mas destroi uma fileira inteira em segundos e some rapido
+JK: É pra ser como um canhão, cadência baixa e alto dano
+
+Tem-se também os inimigos, as portas lógicas:
+
+AND - O "comum" dano e vida medianos
+OR - O "rápido" speed alto, vida e dano médios
+NOT - Um buff, em essência, quando ele morre, a ROM é curada em alguns pontos de hp
+XOR - Uma versão de menor attack speed e dano mais alto 
+MULTIPLEXER - Um tank por essência, mas como elevado dano e baixo attack speed
+DEMULTIPLEXER - Um inimigo com alto dano, baixo attack speed e alta vida
+
+Algumas portas lógicas seriam ranged, mas eu desisti da ideia e preferi deixá-las todas meelee
+
+A meta é não deixar a rom morrer ao longo de 3 minutos, uma vez morta, se perde. A jogabilidade consiste em colocar os filpflops de tal modo que eles matem as portas lógicas
+e protejam a ROM
+
+Modos de Jogo:
+
+Tem-se modos: Facil, Médio e Dificil
+
+A dificuldade escala no seguinte sentido: Seu ouro inicial diminui e a vida e dano dos inimigos aumenta
+
+Proceso de Criação:
+
+Divido o processo em cinco etapas:
+
+1 - Idealização
+2 - "Rabiscos"
+3 - Build do core da coisa
+4 - Correção
+5 - Polimento e entrega
+
+
+1 - Enquanto estudava arquitetura e organização de computadores, surgiu-me a vontade de fazer algo relacionado ao tema, ruminei isso um tempo na minha cabeça
+e então tive a ideia, inicialmente de um jogo de plataforma, mas optei por um tower defense e eventualmente me lembrei de Plants vs Zombies e então surge de fato a ideia
+do projeto
+
+2 - Chamo de rabiscos as fases em que busquei aprender a sintaxe de pygame, plotar figuras, manipular cores, posições, reações a cliques etc, foi uma fase bem curta em que
+mais tentei fazer coisas se moverem ou reagir a x ação do usuário, aqui veio o básico do básico, o aprendizado e reforço do pygame em si veio 99% na execução do projeto - e nos crashs -
+
+3 - A parte mais complicada, aqui tive de pensar em como eu trataria a grade, dimensionamento na grade, estruturação dos objetos com suas classes e atributos, 
+correção constante de sobreposições indesejadas, um tempo considerável na elaboração do comportamento dos projéteis...mais alguns problemas que surgiram
+
+4 - Aqui aparei todas as arestas da lógica do jogo, "blindei" a execução do jogo - interação flipflop - porta lógica-rom - a matriz grade e corrigi alguns problemas inesperados
+- por exemplo, o NOT estava curando além do hp_max da ROM, o que a fazia imortal basicamente, dado que muitos nots eram mortos antes mesmo da ROM sofrer dano, então ela farmava
+hp extra -
+
+5 - Adição de sprites gerados pelo Gemini e ChatGPT, bem como das telas de carregamento e modos de jogo, que em essência, são a execução com poucos dados mudados
+A parte mais complexa foi fazer as IA's gerarem algo bonitinho
+
+
+Dificuldades gerais:
+
+As dificuldades se concentraram na interação matriz - ff - disparo, moldar o modo como o qual a colisão era efetuada me
+travou mais que as outras partes, apesar de, a princípio, não ser uma interação de extrema dificuldade
+
+No geral, foi um processo bem divertido, principalmente na hora de avaliar o comportamento dos objetos dados as infos em suas configurações, onde parte do meu trabalho
+era de fato jogar e avaliar se algo estava desbalanceado ou não. No geral, foi uma experiência agradável em virtude principalmente do tempo ofertado, o prazo permitiu implementações graduais e pequenas ao longo
+de semanas, com alguma sessões maiores quando se encontrava algum problema persistente.
+c
+
+No mais, acredito que em termos de nível de dificuldade não esteja muito além do que um aluno do introcomp seja capaz de desenvolver sob orientação e com um tempo mais elevado, achei bem divertido
+
+Mudanças que eu deixei de implementar:
+
+- Não consegui pensar num bom algoritmo probabilístico de spawn, tive de colocar a porporção fixa no array de
+classes a serem spawnadas e delegar o comportamento a aleatoriadade da função random
+- Mais tipos de torres, a criatividade acabou e a redundância dos FF começaria a ficar mais evidente
+- Inimigos ranged
+- Modo de jogo que tu controla uma porta lógica, mas ai seria praticamente outro jogo
+- Expor visualmente as delimitações da matriz numa malha, não achei um bom modo de fazê-lo
+
+
+
+
+
+
+
+
+

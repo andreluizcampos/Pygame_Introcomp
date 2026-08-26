@@ -1,8 +1,11 @@
 from config.config_geral import FPS, ALTURA_FILEIRA
 from config.flipflops_config import (
-    FFTIPOD_CONFIG, FFTIPOSR_CONFIG, FFTIPOJK_CONFIG, FFTIPOT_CONFIG,
+    FFTIPOD_CONFIG, FFTIPOSR_CONFIG, FFTIPOJK_CONFIG, FFTIPOT_CONFIG, FFTIPOL_CONFIG,
 )
 from entidades.projetil import PROJETIL
+from config.config_geral import VELOCIDADE_PADRAO 
+
+
 import pygame as pg
 
 class FLIPFLOPS:
@@ -44,8 +47,15 @@ class FLIPFLOPS:
 
         origem_x = self.x + self.largura if alvo.x >= self.x else self.x
         origem_y = self.y
-        projeteis.append(PROJETIL(origem_x, origem_y, self.dano, alvo, self.cor))
-        self.cooldown = self.cadencia * FPS
+
+        if isinstance(self,FFTIPOL):
+         projeteis.append(PROJETIL(origem_x, origem_y, self.dano, alvo, VELOCIDADE_PADRAO*2, self.cor))
+         self.cooldown = 0
+
+        else:
+            projeteis.append(PROJETIL(origem_x, origem_y, self.dano, alvo, VELOCIDADE_PADRAO, self.cor))
+            self.cooldown = FPS *self.cadencia  
+
 
     def desenha(self, screen):
 
@@ -80,3 +90,8 @@ class FFTIPOJK(FLIPFLOPS):
 class FFTIPOT(FLIPFLOPS):
     def __init__(self, x, y):
         super().__init__(x, y, **FFTIPOT_CONFIG)
+
+class FFTIPOL(FLIPFLOPS):
+    def __init__(self, x, y):
+        super().__init__(x, y, **FFTIPOL_CONFIG)
+

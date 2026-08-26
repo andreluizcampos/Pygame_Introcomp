@@ -1,10 +1,9 @@
 import pygame as pg
 
-VELOCIDADE_PADRAO = 4
 
 
 class PROJETIL:
-    def __init__(self, x, y, dano, alvo, cor=(255, 255, 0), velocidade=VELOCIDADE_PADRAO):
+    def __init__(self, x, y, dano, alvo, velocidade, cor=pg.Color("yellow")):
         self.x = x
         self.y = y
         self.dano = dano
@@ -14,6 +13,8 @@ class PROJETIL:
         self.atingiu = False
 
     def Movimenta(self):
+
+
         if self.alvo.hp <= 0:
             self.atingiu = True
             return
@@ -26,4 +27,4 @@ class PROJETIL:
             self.x += self.velocidade if distancia > 0 else -self.velocidade
 
     def desenha(self, screen):
-        pg.draw.circle(screen, self.cor, ((self.x , self.y)), 5)
+        pg.draw.circle(screen, self.cor, ((self.x , self.y)), 8 )

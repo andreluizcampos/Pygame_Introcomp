@@ -5,15 +5,12 @@ from config.inimigos_config import (
 import pygame as pg
 
 class INIMIGO:
-    def __init__(self, x, y, dano, vida, projetil, buff, p_dano, cadencia, velocidade, drop, sprite_path, sprite_tamanho,pontos):
+    def __init__(self, x, y, dano, vida, buff, velocidade, drop, sprite_path, sprite_tamanho,pontos):
         self.x = x
         self.y = y
         self.dano = dano
         self.hp = vida
         self.buff = buff
-        self.projetil = projetil
-        self.p_dano = p_dano
-        self.cadencia = cadencia
         self.velocidade = velocidade
         self.drop = drop
         self.sprite = pg.transform.scale(pg.image.load(sprite_path).convert_alpha(), sprite_tamanho)
@@ -22,8 +19,8 @@ class INIMIGO:
         self.pontos = pontos
         self.hitbox = pg.Rect(x,y,80,39)
         self.hp_max = vida
-        self.cd = 0
-        
+        self.largura, self.altura = self.sprite.get_size()
+
     def Movimenta(self, romX, flipflops, rom):
 
         prox = pg.Rect(self.x - self.velocidade,self.y, 80,39)
@@ -60,10 +57,8 @@ class INIMIGO:
             return 0
         
     def Ataca(self,alvo):
+        alvo.hp -= self.dano/60
 
-            cd = 0
-            alvo.hp -= self.dano/60
-        
 
 class AND(INIMIGO):
     def __init__(self, x, y):

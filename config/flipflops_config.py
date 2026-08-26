@@ -1,19 +1,25 @@
+import pygame as pg
+
 FFTIPOD_CONFIG = dict(
-    hp_drop=0.75, hp=450, custo=110, dano=75, cadencia=35, cor=(90, 200, 250), alcance=2000,
-    sprite_path="sprites/FFTIPOD.png", sprite_tamanho=(60, 40),
+    hp_drop=0.75, hp=750, custo=200, dano=75, cadencia=30, cor=pg.Color("cyan"), alcance=400,
+    sprite_path="sprites/FFTIPOD.png", sprite_tamanho=  (60, 40),
 )
 
 FFTIPOSR_CONFIG = dict(
-    hp_drop=1, hp=320, custo=50, dano=30, cadencia=15, cor=(120, 250, 150), alcance=150,
-    sprite_path="sprites/FFTIPOSR.png", sprite_tamanho=(60, 40),
-)
+    hp_drop=0.1, hp=2000, custo=50, dano=3, cadencia=50, cor=pg.Color("green"), alcance=10,
+    sprite_path="sprites/FFTIPOSR.png", sprite_tamanho=(60, 40),)
 
 FFTIPOJK_CONFIG = dict(
-    hp_drop=0.9, hp=750, custo=180, dano=130, cadencia=65, cor=(200, 120, 250), alcance=380,
+    hp_drop=0.9, hp=550, custo=180, dano=50, cadencia=10, cor=pg.Color("purple"), alcance=3000000,
     sprite_path="sprites/FFTIPOJK.png", sprite_tamanho=(60, 40),
 )
 
 FFTIPOT_CONFIG = dict(
-    hp_drop=0.9, hp=380, custo=125, dano=85, cadencia=40, cor=(250, 160, 90), alcance=220,
+    hp_drop=0.9, hp=680, custo=125, dano=500, cadencia=75, cor=pg.Color("orange"), alcance=150,
     sprite_path="sprites/FFTIPOT.png", sprite_tamanho=(60, 40),
 )
+
+FFTIPOL_CONFIG = dict(
+    hp_drop=2, hp=680, custo=800, dano=50000000, cadencia=0.5, cor=pg.Color("red"), alcance=200000,
+    sprite_path="sprites/FFTIPOL.png", sprite_tamanho=(60, 40),)
+
